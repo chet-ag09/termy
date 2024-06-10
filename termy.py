@@ -11,6 +11,11 @@ class Termy:
         print(colored_art)
 
     @staticmethod
+    def p(text, color="white", on_color=None, style=None):
+        colored_text = colored(text, color=color, on_color=on_color, attrs=style)
+        print(colored_text)
+
+    @staticmethod
     def link(url, link_text, color="blue", on_color=None, style=None):
         colored_link_text = colored(link_text, color=color, on_color=on_color, attrs=style)
         print(f"\033]8;;{url}\033\\{colored_link_text}\033]8;;\033\\")
