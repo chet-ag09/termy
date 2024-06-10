@@ -1,12 +1,8 @@
 import pyfiglet
 from termcolor import colored
 import re
-import os
 
 class Termy:
-    os.system('clear')  # Clearing screen
-    os.system('cls')    # For Windows users
-
     @staticmethod
     def head_text(text, font="slant", color="white", on_color=None, style=None):
         figlet = pyfiglet.Figlet(font=font)
@@ -52,3 +48,8 @@ class Termy:
         for line in lines:
             print(f'║ {line.ljust(max_length)} ║')
         print(f'╚{colored("═" * (max_length + 2), color=box_color)}╝')
+
+
+if __name__ == "__main__":
+    Termy.head_text('Termy', color="blue", style=['bold'])
+    print("Version 0.0")
