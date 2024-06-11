@@ -22,6 +22,6 @@ options = [
     ("Option 1", option_1),
     ("Option 2", option_2),
 ]
-choice = Termy.btn("Select an option:", options)
+choice = ter.btn("Select an option:", options)
 
 ```
