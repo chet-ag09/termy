@@ -4,6 +4,8 @@ from termcolor import colored
 import re
 import os
 
+__version__ = 0.0
+
 class Termy:
     @staticmethod
     def head_text(text, font="slant", color="white", on_color=None, style=None):
@@ -82,7 +84,7 @@ class Termy:
             print(f"Error printing box: {e}")
 
     @staticmethod
-    def btn(text, options, color=None):
+    def btn(text, options):
         """Creates a menu with clickable buttons using curses."""
         def character(stdscr):
             curses.mousemask(1)
@@ -170,7 +172,7 @@ class Termy:
     def styled_input(prompt, color="white", on_color=None, style=None, border_color="grey"):
         """Prompts the user for input with a styled prompt message and lines above and below."""
         try:
-            # Get terminal width
+            # Get terminal width's half
             terminal_width = os.get_terminal_size().columns // 2
 
             # Create the styled prompt
@@ -194,20 +196,31 @@ class Termy:
             return input(prompt)
         
 if __name__ == "__main__":
-    Termy.head_text('Termy', color="blue", style=['bold'])
-    print("Version 0.0")
-
-    Termy.p("Termy's usage\n", color="red", style=["bold"])
-
-    Termy.p("Colors - \n", color="white", style=["bold"])
-
-    Termy.p("Grey", color="grey")
-    Termy.p("Red", color="red")
-    Termy.p("Green", color="green")
-    Termy.p("Yellow", color="yellow")
-    Termy.p("Blue", color="blue")
-    Termy.p("Magenta", color="magenta")
-    Termy.p("Cyan", color="cyan")
-    Termy.p("White", color="white")
+    from termy import Termy 
 
 
+    def option_1():
+        print("WASSUP")
+        
+
+    def option_2():
+        Termy.head_text("Termy", color="cyan", style=["bold"])
+        print(f"v{__version__}")  # you have a __version__ variable set
+
+        Termy.p(
+            "\nWelcome to Termy, your interactive terminal playground!",
+            color="green",
+            style=["bold"],
+        )
+
+        Termy.p(
+            "\nTermy empowers you to create visually appealing and interactive text-based applications.\n",
+            color="white",
+        )
+
+
+    options = [
+        ("Text Stuff", option_1),
+        ("Interactive stuff", option_2),
+    ]
+    choice = Termy.btn("Select an option:", options)
