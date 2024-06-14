@@ -196,31 +196,59 @@ class Termy:
             return input(prompt)
         
 if __name__ == "__main__":
-    from termy import Termy 
+  from termy import Termy
+  import os
+
+  def option_1():
+    """Displays intro to text functionalities in Termy (option 1)"""
+    Termy.head_text("Text Effects", color="cyan", style=["bold"])
+
+    Termy.p(
+        "\nTermy provides various functions to enhance your text output in the terminal:\n",
+        color="white",
+    )
+
+    Termy.p("* Colored text: ", color="blue")
+    Termy.p("This is blue text.\n", color="blue")
+
+    Termy.p("* Bold text: ", color="green", style=["bold"])
+    Termy.p("This is bold text.\n", style=["bold"])
+
+    Termy.p("* Reverse text: ", color="white")
+    Termy.p("This is reverse text.\n", style=["reverse"])
 
 
-    def option_1():
-        print("WASSUP")
-        
+  def option_2():
+    """Displays intro to buttons, links functionalities in Termy (option 2)"""
+    Termy.head_text("Interactive Elements", color="cyan", style=["bold"])
 
-    def option_2():
-        Termy.head_text("Termy", color="cyan", style=["bold"])
-        print(f"v{__version__}")  # you have a __version__ variable set
+    Termy.p("\nTermy empowers you to create interactive elements to engage users:", color="white",)
 
-        Termy.p(
-            "\nWelcome to Termy, your interactive terminal playground!",
-            color="green",
-            style=["bold"],
-        )
+    Termy.p("* Buttons:", color="green")
 
-        Termy.p(
-            "\nTermy empowers you to create visually appealing and interactive text-based applications.\n",
-            color="white",
-        )
+    Termy.p("Termy.btn() allows you to create menus with clickable buttons that trigger actions.", color="white")
+
+    Termy.p("* Links:", color="blue")
+    Termy.p("Termy.link() helps you display clickable links that open webpages within the terminal.",
+        color="white",
+    )
 
 
-    options = [
-        ("Text Stuff", option_1),
-        ("Interactive stuff", option_2),
-    ]
+
+  options = [
+      ("Text Effects", option_1),
+      ("Interactive Elements", option_2),
+  ]
+
+  while True:
+    os.system("clear")
+    os.system("cls")
     choice = Termy.btn("Select an option:", options)
+
+    continue_reading = Termy.styled_input(
+        "\nDo you want to read about another option? (y/n): ", color="white"
+    )
+    if continue_reading.lower() != "y":
+      break
+
+  print("\nExiting Termy...")
