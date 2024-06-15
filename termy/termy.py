@@ -3,6 +3,8 @@ import pyfiglet
 from termcolor import colored
 import re
 import os
+import time
+
 
 __version__ = 0.0
 
@@ -167,7 +169,7 @@ class Termy:
             curses.wrapper(character)
         except Exception as e:
             print(f"Error in button menu: {e}")
-            
+
     @staticmethod
     def styled_input(prompt, color="white", on_color=None, style=None, border_color="grey"):
         """Prompts the user for input with a styled prompt message and lines above and below."""
@@ -194,61 +196,102 @@ class Termy:
         except Exception as e:
             print(f"Error in styled_input: {e}")
             return input(prompt)
-        
+
+    @staticmethod
+    def progress_bar(total, prefix='', suffix='', length=50, fill='█', 
+                    bar_color='white', prefix_color='white', suffix_color='white',
+                    bar_style=None, prefix_style=None, suffix_style=None, print_end="\r"):
+        """Creates a styled progress bar that updates in the terminal."""
+        def print_progress(iteration):
+            percent = ("{0:.1f}").format(100 * (iteration / float(total)))
+            filled_length = int(length * iteration // total)
+            bar = fill * filled_length + '-' * (length - filled_length)
+            
+            # Apply color and style to bar, prefix, and suffix
+            styled_prefix = colored(prefix, color=prefix_color, attrs=prefix_style)
+            styled_suffix = colored(suffix, color=suffix_color, attrs=suffix_style)
+            styled_bar = colored(bar, color=bar_color, attrs=bar_style)
+            
+            # Print the progress bar
+            print(f'\r{styled_prefix} |{styled_bar}| {percent}% {styled_suffix}', end=print_end)
+            
+            # Print new line on complete
+            if iteration == total:
+                print()
+
+        return print_progress
+
 if __name__ == "__main__":
-  from termy import Termy
-  import os
+    from termy import Termy
+    import os
 
-  def option_1():
-    """Displays intro to text functionalities in Termy (option 1)"""
-    Termy.head_text("Text Effects", color="cyan", style=["bold"])
+    def option_1():
+        """Displays intro to text functionalities in Termy (option 1)"""
+        Termy.head_text("Text Effects", color="cyan", style=["bold"])
 
-    Termy.p(
-        "\nTermy provides various functions to enhance your text output in the terminal:\n",
-        color="white",
+        Termy.p(
+            "\nTermy provides various functions to enhance your text output in the terminal:\n",
+            color="white",
+        )
+
+        Termy.p("* Colored text: ", color="blue")
+        Termy.p("This is blue text.\n", color="blue")
+
+        Termy.p("* Bold text: ", color="green", style=["bold"])
+        Termy.p("This is bold text.\n", style=["bold"])
+
+        Termy.p("* Reverse text: ", color="white")
+        Termy.p("This is reverse text.\n", style=["reverse"])
+
+    def option_2():
+        """Displays intro to buttons, links functionalities in Termy (option 2)"""
+        Termy.head_text("Interactive Elements", color="cyan", style=["bold"])
+
+        Termy.p("\nTermy empowers you to create interactive elements to engage users:", color="white",)
+
+        Termy.p("* Buttons:", color="green")
+
+        Termy.p("Termy.btn() allows you to create menus with clickable buttons that trigger actions.", color="white")
+
+        Termy.p("* Links:", color="blue")
+        Termy.p("Termy.link() helps you display clickable links that open webpages within the terminal.",
+            color="white",
+        )
+        Termy.p("* Progress Bars:", color="magenta")
+        Termy.p("Termy.progress_bar() helps you display bars that, well, progress!",
+            color="white",
+        )
+
+    options = [
+        ("Text Effects", option_1),
+        ("Interactive Elements", option_2),
+    ]
+
+    while True:
+        os.system("clear")
+        os.system("cls")
+        choice = Termy.btn("Select an option:", options)
+
+        continue_reading = Termy.styled_input(
+            "\nDo you want to read about another option? (y/n): ", color="white"
+        )
+        if continue_reading.lower() != "y":
+            break
+
+    # Example usage of the progress bar
+    total_steps = 100
+    progress = Termy.progress_bar(
+        total_steps, 
+        prefix='Progress:', 
+        suffix='Complete', 
+        length=50, 
+        bar_color='green', 
+        prefix_color='blue', 
+        suffix_color='red', 
+        bar_style=['bold'], 
+        prefix_style=['underline'], 
+        suffix_style=['reverse']
     )
-
-    Termy.p("* Colored text: ", color="blue")
-    Termy.p("This is blue text.\n", color="blue")
-
-    Termy.p("* Bold text: ", color="green", style=["bold"])
-    Termy.p("This is bold text.\n", style=["bold"])
-
-    Termy.p("* Reverse text: ", color="white")
-    Termy.p("This is reverse text.\n", style=["reverse"])
-
-
-  def option_2():
-    """Displays intro to buttons, links functionalities in Termy (option 2)"""
-    Termy.head_text("Interactive Elements", color="cyan", style=["bold"])
-
-    Termy.p("\nTermy empowers you to create interactive elements to engage users:", color="white",)
-
-    Termy.p("* Buttons:", color="green")
-
-    Termy.p("Termy.btn() allows you to create menus with clickable buttons that trigger actions.", color="white")
-
-    Termy.p("* Links:", color="blue")
-    Termy.p("Termy.link() helps you display clickable links that open webpages within the terminal.",
-        color="white",
-    )
-
-
-
-  options = [
-      ("Text Effects", option_1),
-      ("Interactive Elements", option_2),
-  ]
-
-  while True:
-    os.system("clear")
-    os.system("cls")
-    choice = Termy.btn("Select an option:", options)
-
-    continue_reading = Termy.styled_input(
-        "\nDo you want to read about another option? (y/n): ", color="white"
-    )
-    if continue_reading.lower() != "y":
-      break
-
-  print("\nExiting Termy...")
+    for i in range(total_steps):
+        time.sleep(0.1)  # Simulate work being done
+        progress(i + 1)
