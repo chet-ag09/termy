@@ -1,8 +1,12 @@
-# Termy
+# TermyUI
 
 ### Termy is for creating a simple and attractive UI for the terminal, ranging from clickable links to simple buttons, termy has it all!
 
-a simple demo with (the whl file hasn't been created yet so just use the termy.py code lol)
+a simple demo with TermyUI.
+
+First, you need to install Termy, for that run the following command - 
+
+```pip install termyUI==0.0```
 ```
 from termy import *
 import os
