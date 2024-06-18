@@ -10,7 +10,7 @@ a simple demo with TermyUI.
 
 First, you need to install Termy, for that run the following command - 
 
-```pip install termyUI==0.0```
+```pip install termyUI``
 ```
 from termy import *
 import os
