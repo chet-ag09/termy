@@ -2,6 +2,10 @@
 
 ### Termy is for creating a simple and attractive UI for the terminal, ranging from clickable links to simple buttons, termy has it all!
 
+[Visit PyPI page](https://pypi.org/project/termyUI/)
+
+This is a big project for me hence, I need help maintaining it, if you are interested, shoot an email at - agchetna4@gmail.com
+
 a simple demo with TermyUI.
 
 First, you need to install Termy, for that run the following command - 
